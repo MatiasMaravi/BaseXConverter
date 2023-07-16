@@ -1,14 +1,16 @@
 def decimal_to_binary(number):
-    return bin(int(number))
+    return format(int(number), 'b') 
 
 def binary_to_decimal(number):
-    return int(number, 2)
+    temp = int(number, 2)
+    return format(temp, 'd')
 
 def decimal_to_hexadecimal(number):
-    return hex(int(number))
+    return format(int(number), 'X')
 
 def hexadecimal_to_decimal(number):
-    return int(number, 16)
+    temp = int(number, 16)
+    return format(temp, 'd')
 
 def menu():
     print("""-------Welcome BaseXConverter-------
