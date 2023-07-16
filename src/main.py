@@ -1,3 +1,12 @@
+import os
+import platform
+def clear_terminal():
+    system = platform.system()
+    
+    if system == "Windows":
+        os.system("cls")
+    else:
+        os.system("clear")
 def decimal_to_binary(number):
     return format(int(number), 'b') 
 
@@ -12,6 +21,11 @@ def hexadecimal_to_decimal(number):
     temp = int(number, 16)
     return format(temp, 'd')
 
+def imprimir(palabra):
+    print("--------------------")
+    print(palabra)
+    print("--------------------")
+
 def menu():
     print("""-------Welcome BaseXConverter-------
     1. Decimal to Binary
@@ -24,22 +38,26 @@ def menu():
     return opcion
 
 def main():
+    clear_terminal()
     opcion = menu()
     while (opcion != 5):
         if opcion == 1:
             number = input("Enter a decimal number: ")
-            print(decimal_to_binary(number))
+            imprimir(decimal_to_binary(number))
         elif opcion == 2:
             number = input("Enter a binary number: ")
-            print(binary_to_decimal(number))
+            imprimir(binary_to_decimal(number))
         elif opcion == 3:
             number = input("Enter a decimal number: ")
-            print(decimal_to_hexadecimal(number))
+            imprimir(decimal_to_hexadecimal(number))
         elif opcion == 4:
             number = input("Enter a hexadecimal number: ")
-            print(hexadecimal_to_decimal(number))
+            imprimir(hexadecimal_to_decimal(number))
         else:
-            print("Invalid option")
+            imprimir("Invalid option")
+        input("Press enter to continue...")
+        clear_terminal()
         opcion = menu()
 
-main()
+if __name__ == "__main__":
+    main()
