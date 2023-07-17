@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>BaseXConverter</title>
+    <link rel="stylesheet" href="style.css">
+    <audio id="copySound" src="click.mp3"></audio>
+</head>
+<body>
+    <h1>BaseXConverter</h1>
+    <div id="DecimalConverter">
+        <div>
+            <label for="decimal">Decimal: </label>
+            <input type="text" name="valor" id="decimal">
+            <button id="copyDecButton">Copiar</button>
+        </div>
+        <div>
+            <label for="binary">Binario: </label>
+            <span id="dec_binary"></span>
+            <button id="copyDecBinButton">Copiar</button>
+        </div>
+        <div>
+            <label for="hexadecimal">Hexadecimal: </label>
+            <span id="dec_hexadecimal"></span>
+            <button id="copyDecHexButton">Copiar</button>
+        </div>
+    </div>
+    <div id="BinaryConverter">
+        <div>
+            <label for="binary">Binario: </label>
+            <input type="text" name="valor" id="binary">
+            <button id="copyBinButton">Copiar</button>
+        </div>
+        <div>
+            <label for="decimal">Decimal: </label>
+            <span id="bin_decimal"></span>
+            <button id="copyBinDecButton">Copiar</button>
+        </div>
+        <div>
+            <label for="hexadecimal">Hexadecimal: </label>
+            <span id="bin_hexadecimal"></span>
+            <button id="copyBinHexButton">Copiar</button>
+        </div>
+    </div>
+    <div id="HexadecimalConverter">
+        <div>
+            <label for="hexadecimal">Hexadecimal: </label>
+            <input type="text" name="valor" id="hexadecimal">
+            <button id="copyHexButton">Copiar</button>
+        </div>
+        <div>
+            <label for="decimal">Decimal: </label>
+            <span id="hex_decimal"></span>
+            <button id="copyHexDecButton">Copiar</button>
+        </div>
+        <div>
+            <label for="binary">Binario: </label>
+            <span id="hex_binary"></span>
+            <button id="copyHexBinButton">Copiar</button>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script>
+        const decimalConverter = document.getElementById('DecimalConverter');
+        const dec_binary = document.getElementById('dec_binary');
+        const dec_hexadecimal = document.getElementById('dec_hexadecimal');
+
+        const binaryConverter = document.getElementById('BinaryConverter');
+        const bin_decimal = document.getElementById('bin_decimal');
+        const bin_hexadecimal = document.getElementById('bin_hexadecimal');
+
+        const hexadecimalConverter = document.getElementById('HexadecimalConverter');
+        const hex_decimal = document.getElementById('hex_decimal');
+        const hex_binary = document.getElementById('hex_binary');
+
+        const copyDecButton = document.getElementById('copyDecButton');
+        const copyDecBinButton = document.getElementById('copyDecBinButton');
+        const copyDecHexButton = document.getElementById('copyDecHexButton');
+
+        const copyBinButton = document.getElementById('copyBinButton');
+        const copyBinDecButton = document.getElementById('copyBinDecButton');
+        const copyBinHexButton = document.getElementById('copyBinHexButton');
+
+        const copyHexButton = document.getElementById('copyHexButton');
+        const copyHexDecButton = document.getElementById('copyHexDecButton');
+        const copyHexBinButton = document.getElementById('copyHexBinButton');
+
+        decimalConverter.addEventListener('input', function(event) {
+            const decimalValue = event.target.value;
+            const binaryValue = decimal_to_binary(decimalValue);
+            const hexadecimalValue = decimal_to_hexadecimal(decimalValue);
+            dec_binary.textContent = binaryValue !== '' ? binaryValue : '0';
+            dec_hexadecimal.textContent = hexadecimalValue !== '' ? hexadecimalValue : '0';
+        });
+
+        binaryConverter.addEventListener('input', function(event) {
+            const binaryValue = event.target.value;
+            const decimalValue = binary_to_decimal(binaryValue);
+            const hexadecimalValue = binary_to_hexadecimal(binaryValue);
+            bin_decimal.textContent = decimalValue !== '' ? decimalValue : '0';
+            bin_hexadecimal.textContent = hexadecimalValue !== '' ? hexadecimalValue : '0';
+        });
+
+        hexadecimalConverter.addEventListener('input', function(event) {
+            const hexadecimalValue = event.target.value;
+            const decimalValue = hexadecimal_to_decimal(hexadecimalValue);
+            const binaryValue = hexadecimal_to_binary(hexadecimalValue);
+            hex_decimal.textContent = decimalValue !== '' ? decimalValue : '0';
+            hex_binary.textContent = binaryValue !== '' ? binaryValue : '0';
+        });
+
+        copyDecButton.addEventListener('click', function() {
+            const decimalValue = decimal.value;
+            copyToClipboard(decimalValue);
+            playCopySound();
+        });
+
+        copyDecBinButton.addEventListener('click', function() {
+            const binaryValue = dec_binary.textContent;
+            copyToClipboard(binaryValue);
+            playCopySound();
+        });
+
+        copyDecHexButton.addEventListener('click', function() {
+            const hexadecimalValue = dec_hexadecimal.textContent;
+            copyToClipboard(hexadecimalValue);
+            playCopySound();
+        });
+
+        copyBinButton.addEventListener('click', function() {
+            const binaryValue = binary.value;
+            copyToClipboard(binaryValue);
+            playCopySound();
+        });
+
+        copyBinDecButton.addEventListener('click', function() {
+            const decimalValue = bin_decimal.textContent;
+            copyToClipboard(decimalValue);
+            playCopySound();
+        });
+
+        copyBinHexButton.addEventListener('click', function() {
+            const hexadecimalValue = bin_hexadecimal.textContent;
+            copyToClipboard(hexadecimalValue);
+            playCopySound();
+        });
+
+        copyHexButton.addEventListener('click', function() {
+            const hexadecimalValue = hexadecimal.value;
+            copyToClipboard(hexadecimalValue);
+            playCopySound();
+        });
+
+        copyHexDecButton.addEventListener('click', function() {
+            const decimalValue = hex_decimal.textContent;
+            copyToClipboard(decimalValue);
+            playCopySound();
+        });
+
+        copyHexBinButton.addEventListener('click', function() {
+            const binaryValue = hex_binary.textContent;
+            copyToClipboard(binaryValue);
+            playCopySound();
+        });
+
+        function copyToClipboard(value) {
+            const tempInput = document.createElement('input');
+            tempInput.setAttribute('value', value);
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+        }
+        function playCopySound() {
+            const copySound = document.getElementById('copySound');
+            copySound.play();
+        }
+    </script>
+</body>
+</html>
